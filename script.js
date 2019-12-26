@@ -20,15 +20,29 @@ window.addEventListener('resize', () => {
 
 //Load GLTF Model
 var loader = new THREE.GLTFLoader();
-loader.load('scene.gltf',handle_load )
+loader.load('./island/scene.gltf',handle_load )
 var Goku;
 function handle_load(gltf){
     Goku= gltf.scene.children[0];
 
     scene.add( Goku );
-    Goku.position.z = -1;
+    Goku.position.z = -250;
     Goku.position.y = -0.2;
-    Goku.rotation.z = -2;
+    //Goku.rotation.z = -2;
+
+}
+var loader2 = new THREE.GLTFLoader();
+loader2.load('scene.gltf',handle_load2 )
+var Goku2;
+function handle_load2(gltf){
+    Goku2= gltf.scene.children[0];
+
+    scene.add( Goku2 );
+    Goku2.position.z = 0;
+    Goku2.position.y = 0;
+    //Goku2.position.x = -4;
+
+    //Goku.rotation.z = -2;
 
 }
 //Light
@@ -47,6 +61,10 @@ scene.add(light);
 var render = function() {
     requestAnimationFrame(render);
     Goku.rotation.z += 0.01;
+    Goku2.rotation.z += 0.01;
+    //Goku2.rotation.y += 0.01;
+   // Goku2.rotation.x += 0.01;
+
     renderer.render(scene, camera);
 }
 
