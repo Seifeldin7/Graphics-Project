@@ -1,9 +1,10 @@
 //Create Camera And Scene
 var scene = new THREE.Scene();
 
-var camera = new THREE.PerspectiveCamera(55,window.innerWidth/window.innerHeight,0.1,1500)
+var camera = new THREE.PerspectiveCamera(65,window.innerWidth/window.innerHeight,0.1,1500)
 camera.position.z = 50;
-
+camera.position.x = 15;
+camera.position.y = 0;
 var renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setClearColor("#e5e5e5");
 renderer.setSize(window.innerWidth,window.innerHeight);
@@ -49,7 +50,7 @@ window.addEventListener('resize', () => {
 })
 
 
-//Load GLTF Model
+//Load GLTF Models
 
 
 var loader = new THREE.GLTFLoader();
@@ -80,10 +81,57 @@ function handle_load2(gltf){
     Goku2.scale.set( 12, 12, 12 );
 
     Goku2.position.z = 6;
-    Goku2.position.y = 8.5;
+    Goku2.position.y = 9;
     Goku2.position.x = 3.5;
 
-    Goku2.rotation.z = -3.5;
+    Goku2.rotation.z = -2.1;
+
+}
+var loader3 = new THREE.GLTFLoader();
+loader3.load('./dragon/scene.gltf',handle_load3 )
+var dragon;
+function handle_load3(gltf){
+    dragon= gltf.scene.children[0];
+
+    scene.add( dragon );
+    dragon.scale.set( 0.05, 0.05, 0.05 );
+
+    dragon.position.z = 6;
+    dragon.position.y = -20;
+    dragon.position.x = 30;
+
+    dragon.rotation.z = -1.5;
+
+}
+var loader4 = new THREE.GLTFLoader();
+loader4.load('./goku cloud/scene.gltf',handle_load4 )
+var gokucloud;
+function handle_load4(gltf){
+    gokucloud= gltf.scene.children[0];
+
+    scene.add( gokucloud );
+    gokucloud.scale.set( 0.05, 0.05, 0.05 );
+
+    gokucloud.position.z = -60;
+    gokucloud.position.y = 0;
+    gokucloud.position.x = 30;
+
+    gokucloud.rotation.z = -1.5;
+
+}
+var loader5 = new THREE.GLTFLoader();
+loader5.load('./dragon_balls/scene.gltf',handle_load5 )
+var dragon_balls;
+function handle_load5(gltf){
+    dragon_balls= gltf.scene.children[0];
+
+    scene.add( dragon_balls );
+    dragon_balls.scale.set( 0.02, 0.02, 0.02 );
+
+    dragon_balls.position.z = 0;
+    dragon_balls.position.y = 5;
+    dragon_balls.position.x = 17;
+
 
 }
 //Light
@@ -95,14 +143,20 @@ var light = new THREE.PointLight(0xFFFFFF, 2, 1000)
 light.position.set(0,0,25);
 scene.add(light);
 
-var light = new THREE.AmbientLight(0xFFFFFF, 0.9)
+var light = new THREE.AmbientLight(0xFFFFFF, 1.3)
 scene.add(light);
-
+function animate(){
+    gokucloud.position.x -=0.2;
+    dragon_balls.rotation.z+=0.01;
+}
 //Animation Function
 var prevTime = Date.now();
 var render = function() {
    requestAnimationFrame(render);
    renderer.render(scene, camera);
+   if( gokucloud && dragon_balls){
+        animate();
+   }
    
    if ( mixer ) {
     var time = Date.now();
