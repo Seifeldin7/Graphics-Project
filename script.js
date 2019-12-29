@@ -13,7 +13,7 @@ document.body.appendChild(renderer.domElement);
 
 // Control
 let controls = new THREE.OrbitControls(camera);
-controls.addEventListener('change', renderer);
+controls.addEventListener('change', function(){ renderer});
 controls.minDistance = 50;
 controls.maxDistance = 250;
 
