@@ -134,6 +134,26 @@ function handle_load5(gltf){
 
 
 }
+var loader6 = new THREE.GLTFLoader();
+loader6.load('./monster/scene.gltf',handle_load6 )
+var monster;
+var mixer2 = null;
+
+function handle_load6(gltf){
+   
+    monster = gltf.scene.children[ 0 ];
+	scene.add( monster );
+    mixer2 = new THREE.AnimationMixer( monster );
+    console.log(gltf.animations)
+	mixer2.clipAction( gltf.animations[ 0 ] ).setDuration( 2.5 ).play();
+
+    monster.position.z = -45;
+    monster.position.y = -35;
+    monster.position.x = 10;
+    monster.scale.set(0.35,0.35,0.35);
+    monster.rotation.z =5;
+
+}
 //Light
 
 var light = new THREE.AmbientLight(0xFFFFFF, 0.2)
@@ -151,11 +171,13 @@ scene.add(light_directional);
   
 function animate(){
     gokucloud.position.x -=0.2;
+    monster.position.x -= 0.2;
     dragon_balls.rotation.z+=0.01;
 }
 
 //Animation Function
 var prevTime = Date.now();
+var prevTime2 = Date.now();
 var render = function() {
    requestAnimationFrame(render);
    renderer.render(scene, camera);
@@ -167,6 +189,11 @@ var render = function() {
     var time = Date.now();
     mixer.update( ( time - prevTime ) * 0.001 );
     prevTime = time;
+    }
+    if ( mixer2 ) {
+        var time = Date.now();
+        mixer2.update( ( time - prevTime ) *0.07 );
+        prevTime2 = time;
     }
 }
 
