@@ -149,7 +149,6 @@ scene.add(light);*/
 scene.add(light);*/
 var light = new THREE.PointLight(0xFFFFFF, 2, 1000)
 light.position.set(0,20,25);
-light.castShadow = true;
 scene.add(light);
 /*{
     const skyColor = 0xB1E1FF;  // light blue
