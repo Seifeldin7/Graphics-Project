@@ -50,30 +50,40 @@ window.addEventListener('resize', () => {
 
 
 //Load GLTF Model
-var loader = new THREE.GLTFLoader();
-loader.load('./island/scene.gltf',handle_load )
-var Goku;
-function handle_load(gltf){
-    Goku= gltf.scene.children[0];
 
-    scene.add( Goku );
-    Goku.position.z = -250;
-    Goku.position.y = -0.2;
-    //Goku.rotation.z = -2;
+
+var loader = new THREE.GLTFLoader();
+loader.load('./kaio/scene.gltf',handle_load )
+var island;
+var mixer = null;
+
+function handle_load(gltf){
+   
+    island = gltf.scene.children[ 0 ];
+	scene.add( island );
+	mixer = new THREE.AnimationMixer( island );
+	mixer.clipAction( gltf.animations[ 0 ] ).setDuration( 30 ).play();
+
+    
+    island.position.z = 0;
+    island.position.y = 0;
+    island.scale.set(0.4,0.4,0.4);
 
 }
 var loader2 = new THREE.GLTFLoader();
-loader2.load('scene.gltf',handle_load2 )
+loader2.load('./Goku/scene.gltf',handle_load2 )
 var Goku2;
 function handle_load2(gltf){
     Goku2= gltf.scene.children[0];
 
     scene.add( Goku2 );
-    Goku2.position.z = 0;
-    Goku2.position.y = 0;
-    //Goku2.position.x = -4;
+    Goku2.scale.set( 12, 12, 12 );
 
-    //Goku.rotation.z = -2;
+    Goku2.position.z = 6;
+    Goku2.position.y = 8.5;
+    Goku2.position.x = 3.5;
+
+    Goku2.rotation.z = -3.5;
 
 }
 //Light
@@ -85,18 +95,20 @@ var light = new THREE.PointLight(0xFFFFFF, 2, 1000)
 light.position.set(0,0,25);
 scene.add(light);
 
-var light = new THREE.AmbientLight(0xFFFFFF, 0.6)
+var light = new THREE.AmbientLight(0xFFFFFF, 0.9)
 scene.add(light);
 
 //Animation Function
+var prevTime = Date.now();
 var render = function() {
-    // Goku.rotation.z += 0.01;
-    // Goku2.rotation.z += 0.01;
-    //Goku2.rotation.y += 0.01;
-   // Goku2.rotation.x += 0.01;
-   renderer.render(scene, camera);
    requestAnimationFrame(render);
-
+   renderer.render(scene, camera);
+   
+   if ( mixer ) {
+    var time = Date.now();
+    mixer.update( ( time - prevTime ) * 0.001 );
+    prevTime = time;
+    }
 }
 
 
