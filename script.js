@@ -65,9 +65,9 @@ function handle_load(gltf){
 	mixer = new THREE.AnimationMixer( island );
 	mixer.clipAction( gltf.animations[ 0 ] ).setDuration( 30 ).play();
 
-    
     island.position.z = 0;
     island.position.y = 0;
+    island.position.x = -5;
     island.scale.set(0.4,0.4,0.4);
 
 }
@@ -135,7 +135,7 @@ function handle_load5(gltf){
 
 }
 //Light
-var light = new THREE.PointLight(0xFFFFFF, 1, 1000)
+/*var light = new THREE.PointLight(0xFFFFFF, 1, 1000)
 light.position.set(0,0,0);
 scene.add(light);
 
@@ -143,12 +143,35 @@ var light = new THREE.PointLight(0xFFFFFF, 2, 1000)
 light.position.set(0,0,25);
 scene.add(light);
 
-var light = new THREE.AmbientLight(0xFFFFFF, 1.3)
+var light = new THREE.AmbientLight(0xFFFFFF, 1.6)
+scene.add(light);*/
+/*var light = new THREE.AmbientLight(0xFFFFFF, 0.6)
+scene.add(light);*/
+var light = new THREE.PointLight(0xFFFFFF, 2, 1000)
+light.position.set(0,20,25);
+light.castShadow = true;
 scene.add(light);
+/*{
+    const skyColor = 0xB1E1FF;  // light blue
+    const groundColor = 0x00ff00;  
+    const intensity = 1;
+    const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+    scene.add(light);
+}*/
+{
+    const color = 0xFFFFFF;
+    const intensity = 1;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(30, 30, 10);
+    light.castShadow = true;
+    scene.add(light);
+  }
 function animate(){
     gokucloud.position.x -=0.2;
     dragon_balls.rotation.z+=0.01;
 }
+var directionalLight = new THREE.DirectionalLight( 0xffffff,1 );
+scene.add( directionalLight );
 //Animation Function
 var prevTime = Date.now();
 var render = function() {
